@@ -1,5 +1,4 @@
 import { makeStyles } from '@material-ui/core/styles';
-import { Widgets } from '@material-ui/icons';
 
 export const useStyles = makeStyles(() => ({
     container: {
@@ -12,7 +11,9 @@ export const useStyles = makeStyles(() => ({
         },
         '& div': {
             borderTop: '1px solid gray',
-            width: '40%'
+            width: '40%',
+            paddingTop: '0.2rem',
+            paddingBottom: '0.2rem'
         },
         '& h1': {
             fontSize: '2rem'
