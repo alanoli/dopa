@@ -1,18 +1,25 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import MenuDrawer from '../../components/drawer/Drawer';
 import HabitCard from '../../components/habits/HabitCard';
 import ScreenHeader from '../../components/screenHeader/ScreenHeader';
+import Button from '../../components/button';
 
 import { useStyles } from './styles';
 
 const Habits = () => {
     const classes = useStyles();
-    let data = {
-        percentage: 0
-    };
+
+    const [data, setData] = useState({ percentage: 0, loading: true });
+
+    const getData = () => {
+        setData({
+            percentage: 66,
+            loading: false
+        })
+    }
 
     useEffect(() => {
-        data.percentage = 66;
+        getData();
     }, []);
 
     const today = new Date();
@@ -24,16 +31,23 @@ const Habits = () => {
                 title={`Hoje, ${today.getDate()}/${today.getMonth()}`}
                 subtitle={'Hábitos'}
             />
-            <section className={classes.progress}>
-                <h5>{`${data.percentage}%`}</h5>
-                <p>concluídos</p>
-            </section>
-            <section>
-                <HabitCard name={"Acordar cedo"} />
-                <HabitCard name={"Gratidão"} />
-                <HabitCard name={"Exercícios"} />
-            </section>
-            <button>Demais períodos</button>
+            {
+                !data.loading ?
+                    <>
+                        <section className={classes.progress}>
+                            <h5>{`${data.percentage}%`}</h5>
+                            <p>concluídos</p>
+                        </section>
+                        <section className={classes.habitsList}>
+                            <HabitCard name={"Acordar cedo"} imageUrl={'/habits_images/wakeupearly.png'} />
+                            <HabitCard name={"Gratidão"} />
+                            <HabitCard name={"Exercícios"} />
+                        </section>
+                        <Button>Demais períodos</Button>
+                    </>
+                    :
+                    <>Loading data</>
+            }
         </div>
     )
 }

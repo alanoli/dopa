@@ -1,15 +1,30 @@
 import React from 'react';
+import { useStyles } from './styles';
 
 interface HabitCardProps {
     name: string
     imageUrl?: string
+    status?: HABIT_STATUS
 }
 
-const HabitCard: React.FC<HabitCardProps> = ({ name, imageUrl }) => {
+const HabitCard: React.FC<HabitCardProps> = ({ name, imageUrl, status }) => {
+    const classes = useStyles();
+
     return (
-        <>
-            <p>{name}</p>
-        </>
+        <div className={classes.container}>
+            <div className={classes.habitCardText}>
+                <p>{name}</p>
+            </div>
+            <div className={classes.habitCardImage}>
+                {imageUrl == null ?
+                    <img src={'/habits_images/default.png'} alt="" />
+                    :
+                    <img src={imageUrl} alt="" />
+                }
+            </div>
+
+
+        </div>
     )
 }
 
