@@ -5,18 +5,20 @@ import { useStyles } from './styles';
 interface ButtonProps {
     children: React.ReactNode,
     onClick?: () => void,
-    variant?: string
+    outlined?: boolean,
+    secondary?: boolean
 }
 
-const Button: React.FC<ButtonProps> = ({ children, variant, onClick, ...props }) => {
+const Button: React.FC<ButtonProps> = ({ children, outlined, secondary, onClick, ...props }) => {
     const classes = useStyles();
 
     return (
         <>
             <DefaultButton
-                variant="contained"
+                variant={outlined ? "outlined" : "contained"}
                 classes={classes}
                 onClick={onClick}
+                color={secondary ? "secondary" : "primary"}
                 {...props}
             >
                 {children}

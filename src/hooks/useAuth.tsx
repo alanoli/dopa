@@ -6,14 +6,26 @@ import {
     signInWithEmailAndPassword,
     signOut,
     getIdTokenResult,
-    onAuthStateChanged
+    onAuthStateChanged,
+    updateProfile,
+    IdTokenResult,
+    Auth
 } from 'firebase/auth';
 
 const AuthContext = createContext(null);
 
 export const useAuth = () => useContext(AuthContext);
 
-const useAuthProvider = () => {
+interface UseAuthProviderReturn {
+    signIn: (email: string, password: string) => Promise<void>,
+    logOut: () => void,
+    getToken: () => Promise<IdTokenResult | "no user">,
+    isLoggedIn: () => Promise<boolean>,
+    updateName: () => void,
+    auth: Auth
+}
+
+const useAuthProvider = (): UseAuthProviderReturn => {
 
     const auth = getAuth();
 
@@ -63,11 +75,23 @@ const useAuthProvider = () => {
         }
     }
 
+    async function updateName(): Promise<void> {
+        try {
+            await updateProfile(auth.currentUser, {
+                displayName: "Alan Oliveira"
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     return {
         signIn,
         logOut,
         getToken,
-        isLoggedIn
+        isLoggedIn,
+        updateName,
+        auth
     }
 }
 
@@ -89,7 +113,7 @@ export const withAuth = (Component) => {
         isLoggedIn()
             .then(result => {
                 if (!result) {
-                    router.push("/login");
+                    Router.push("/login");
                 } else {
                     setIsAuthenticaded(true);
                 }

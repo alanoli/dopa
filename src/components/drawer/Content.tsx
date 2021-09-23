@@ -1,29 +1,45 @@
 import React from 'react';
+import Router from 'next/router';
 
-import {
-    Home
-} from '@material-ui/icons';
+import { makeStyles } from '@material-ui/core';
+import UserTitle from './UserTitle';
 
 import {
     List,
     ListItem,
     ListItemText,
-    ListItemIcon,
-    Divider
 } from '@material-ui/core';
 
+const useStyles = makeStyles(theme => ({
+    primary: {
+        fontSize: '1.4rem'
+    }
+}))
+
 const Content = () => {
+    const classes = useStyles();
+
     return (
-        <List>
-            <ListItem button key="principal">
-                <ListItemIcon><Home /></ListItemIcon>
-                <ListItemText primary={"Principal"} />
-            </ListItem>
-            <ListItem button key="habit">
-                <ListItemIcon><Home /></ListItemIcon>
-                <ListItemText primary={"Hábito"} />
-            </ListItem>
-        </List>
+        <>
+            <UserTitle />
+            <List>
+                <ListItem button key="habits/list">
+                    <ListItemText
+                        onClick={() => Router.push("/habits/list")} classes={classes}>Hábitos
+                    </ListItemText>
+                </ListItem>
+                <ListItem button key="habits">
+                    <ListItemText
+                        onClick={() => Router.push("/habits")} classes={classes}>Hoje
+                    </ListItemText>
+                </ListItem>
+                <ListItem button key="habits/all">
+                    <ListItemText
+                        onClick={() => Router.push("/habits/all")} classes={classes}>Demais períodos
+                    </ListItemText>
+                </ListItem>
+            </List>
+        </>
     )
 }
 
