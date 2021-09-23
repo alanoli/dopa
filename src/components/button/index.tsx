@@ -4,10 +4,11 @@ import { useStyles } from './styles';
 
 interface ButtonProps {
     children: React.ReactNode,
+    onClick?: () => void,
     variant?: string
 }
 
-const Button: React.FC<ButtonProps> = ({ children, variant, ...props }) => {
+const Button: React.FC<ButtonProps> = ({ children, variant, onClick, ...props }) => {
     const classes = useStyles();
 
     return (
@@ -15,6 +16,7 @@ const Button: React.FC<ButtonProps> = ({ children, variant, ...props }) => {
             <DefaultButton
                 variant="contained"
                 classes={classes}
+                onClick={onClick}
                 {...props}
             >
                 {children}

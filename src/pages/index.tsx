@@ -1,6 +1,9 @@
-import Head from 'next/head'
+import Head from 'next/head';
+import { withAuth } from '../hooks/useAuth';
 
-export default function Home() {
+import Button from '../components/button';
+
+function Home() {
 	return (
 		<div>
 			<Head>
@@ -13,3 +16,5 @@ export default function Home() {
 		</div>
 	)
 }
+
+export default withAuth(Home);

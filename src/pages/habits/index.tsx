@@ -4,23 +4,35 @@ import HabitCard from '../../components/habits/HabitCard';
 import ScreenHeader from '../../components/screenHeader/ScreenHeader';
 import Button from '../../components/button';
 
+import { withAuth } from '../../hooks/useAuth';
+import { useDb } from '../../hooks/useDb';
+
 import { useStyles } from './styles';
 
 const Habits = () => {
     const classes = useStyles();
 
-    const [data, setData] = useState({ percentage: 0, loading: true });
+    const [data, setData] = useState({ loading: true, data: null });
+    const [percentage, setPercentage] = useState(0);
+    const { getDocuments } = useDb();
 
-    const getData = () => {
-        setData({
-            percentage: 66,
-            loading: false
-        })
+    const getData = async () => {
+        try {
+            const docs = await getDocuments("habits");
+            setData({
+                loading: false,
+                data: docs
+            })
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     useEffect(() => {
         getData();
     }, []);
+
+    console.log(data);
 
     const today = new Date();
 
@@ -35,13 +47,19 @@ const Habits = () => {
                 !data.loading ?
                     <>
                         <section className={classes.progress}>
-                            <h5>{`${data.percentage}%`}</h5>
+                            <h5>{`${percentage}%`}</h5>
                             <p>concluídos</p>
                         </section>
                         <section className={classes.habitsList}>
-                            <HabitCard name={"Acordar cedo"} imageUrl={'/habits_images/wakeupearly.png'} />
-                            <HabitCard name={"Gratidão"} />
-                            <HabitCard name={"Exercícios"} />
+                            {data.data.map((item, index) => {
+                                return (
+                                    <HabitCard
+                                        key={index}
+                                        name={item.title}
+                                        imageUrl={'/habits_images/wakeupearly.png'}
+                                    />
+                                )
+                            })}
                         </section>
                         <Button>Demais períodos</Button>
                     </>
@@ -52,4 +70,4 @@ const Habits = () => {
     )
 }
 
-export default Habits;
+export default withAuth(Habits);

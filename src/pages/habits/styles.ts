@@ -4,6 +4,7 @@ import { ITheme } from '../../styles/themes/theme';
 export const useStyles = makeStyles((theme: ITheme) => ({
     container: {
         display: 'flex',
+        height: '100vh',
         flexDirection: 'column',
         gap: '2rem',
 
@@ -12,7 +13,8 @@ export const useStyles = makeStyles((theme: ITheme) => ({
         '& button': {
             alignSelf: 'center'
         },
-        color: theme.palette.primary.main
+        color: theme.palette.primary.main,
+        backgroundColor: theme.palette.quaternary.main
     },
     progress: {
         alignSelf: 'center',
