@@ -8,35 +8,13 @@ import { useStyles } from './styles';
 import { Dialog } from '../../../components/dialog';
 import useHabitDb from '../../../services/useHabitDb';
 
-import {
-    Stepper,
-    Step,
-    StepLabel,
-    StepContent,
-    Box
-} from '@material-ui/core';
-
-import steps from '../steps';
+import HabitsForm from './form';
 
 const HabitsListScreen = () => {
     const classes = useStyles();
     const [open, setOpen] = useState(false);
     const [data, setData] = useState({ loading: true, data: null });
     const { getAllHabits } = useHabitDb();
-
-    const [activeStep, setActiveStep] = React.useState(0);
-
-    const handleNext = () => {
-        setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    };
-
-    const handleBack = () => {
-        setActiveStep((prevActiveStep) => prevActiveStep - 1);
-    };
-
-    const handleReset = () => {
-        setActiveStep(0);
-    };
 
     const getData = async () => {
         try {
@@ -84,35 +62,7 @@ const HabitsListScreen = () => {
                 open={open}
                 onClose={() => setOpen(false)}
             >
-                <Stepper activeStep={activeStep} orientation={"vertical"}>
-                    {steps.map((step, index) => {
-                        return <Step key={index}>
-                            <StepLabel>
-                                {step.label}
-                            </StepLabel>
-                            <StepContent>
-                                {step.description}
-                                <Box sx={{ mb: 2 }}>
-                                    <div>
-                                        <Button
-                                            onClick={handleNext}
-                                        // sx={{ mt: 1, mr: 1 }}
-                                        >
-                                            {index === steps.length - 1 ? 'Finish' : 'Continue'}
-                                        </Button>
-                                        <Button
-                                            disabled={index === 0}
-                                            onClick={handleBack}
-                                        // sx={{ mt: 1, mr: 1 }}
-                                        >
-                                            Back
-                                        </Button>
-                                    </div>
-                                </Box>
-                            </StepContent>
-                        </Step>
-                    })}
-                </Stepper>
+                <HabitsForm />
             </Dialog>
         </div>
     )

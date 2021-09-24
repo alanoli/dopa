@@ -31,8 +31,6 @@ const HabitsScreen = () => {
         getData();
     }, []);
 
-    console.log(data);
-
     const today = new Date();
 
     return (
