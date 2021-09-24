@@ -4,17 +4,11 @@ import { getFirestore } from 'firebase/firestore';
 import {
     getDocs,
     collection,
-    QuerySnapshot,
     DocumentData
 } from 'firebase/firestore';
 
-interface HabitsDocumentData {
-    control_type: string,
-    title: string
-}
-
 interface UseDbReturn {
-    getDocuments: (collectionName: string) => Promise<HabitsDocumentData[]>
+    getDocuments: (collectionName: string) => Promise<DocumentData[]>
 }
 
 export const useDb = (): UseDbReturn => {

@@ -1,6 +1,8 @@
 import React from 'react';
 import { useStyles } from './styles';
 
+import { HABIT_STATUS } from '../../../enums/habits';
+
 interface HabitCardBigProps {
     name: string
     imageUrl?: string

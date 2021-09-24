@@ -6,10 +6,11 @@ interface ButtonProps {
     children: React.ReactNode,
     onClick?: () => void,
     outlined?: boolean,
-    secondary?: boolean
+    secondary?: boolean,
+    disabled?: boolean
 }
 
-const Button: React.FC<ButtonProps> = ({ children, outlined, secondary, onClick, ...props }) => {
+const Button: React.FC<ButtonProps> = ({ children, disabled, outlined, secondary, onClick, ...props }) => {
     const classes = useStyles();
 
     return (
@@ -19,6 +20,7 @@ const Button: React.FC<ButtonProps> = ({ children, outlined, secondary, onClick,
                 classes={classes}
                 onClick={onClick}
                 color={secondary ? "secondary" : "primary"}
+                disabled={disabled}
                 {...props}
             >
                 {children}

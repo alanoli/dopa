@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import MenuDrawer from '../../../components/drawer/Drawer';
 import ScreenHeader from '../../../components/screenHeader/ScreenHeader';
 import Button from '../../../components/button';
@@ -6,6 +6,7 @@ import HabitCardBig from '../../../components/habits/HabitCardBig';
 
 import { useStyles } from './styles';
 import { Dialog } from '../../../components/dialog';
+import useHabitDb from '../../../services/useHabitDb';
 
 import {
     Stepper,
@@ -15,11 +16,13 @@ import {
     Box
 } from '@material-ui/core';
 
-import steps from './steps';
+import steps from '../steps';
 
-const List = () => {
+const HabitsListScreen = () => {
     const classes = useStyles();
     const [open, setOpen] = useState(false);
+    const [data, setData] = useState({ loading: true, data: null });
+    const { getAllHabits } = useHabitDb();
 
     const [activeStep, setActiveStep] = React.useState(0);
 
@@ -35,6 +38,22 @@ const List = () => {
         setActiveStep(0);
     };
 
+    const getData = async () => {
+        try {
+            const habits = await getAllHabits();
+            setData({
+                loading: false,
+                data: habits
+            })
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    useEffect(() => {
+        getData();
+    }, []);
+
     return (
         <div className={classes.container}>
             <MenuDrawer />
@@ -44,9 +63,20 @@ const List = () => {
             />
             <Button onClick={() => setOpen(true)}>Novo hábito</Button>
             <div className={classes.habitsList}>
-                <HabitCardBig name={"Acordar cedo"} imageUrl={"/habits_images/wakeupearly.png"} />
-                <HabitCardBig name={"Exercícios"} imageUrl={"/habits_images/workout.png"} />
-                <HabitCardBig name={"Acordar cedo"} />
+                {!data.loading ?
+                    <>
+                        {data.data.map((item) => {
+                            return (
+                                <HabitCardBig
+                                    name={item.title}
+                                    imageUrl={"/habits_images/wakeupearly.png"}
+                                />
+                            )
+                        })}
+                    </>
+                    :
+                    <>Loading data</>
+                }
             </div>
             <Dialog
                 title={"Novo hábito"}
@@ -65,16 +95,15 @@ const List = () => {
                                 <Box sx={{ mb: 2 }}>
                                     <div>
                                         <Button
-                                            variant="contained"
                                             onClick={handleNext}
-                                            sx={{ mt: 1, mr: 1 }}
+                                        // sx={{ mt: 1, mr: 1 }}
                                         >
                                             {index === steps.length - 1 ? 'Finish' : 'Continue'}
                                         </Button>
                                         <Button
                                             disabled={index === 0}
                                             onClick={handleBack}
-                                            sx={{ mt: 1, mr: 1 }}
+                                        // sx={{ mt: 1, mr: 1 }}
                                         >
                                             Back
                                         </Button>
@@ -89,4 +118,4 @@ const List = () => {
     )
 }
 
-export default List;
+export default HabitsListScreen
