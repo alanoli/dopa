@@ -18,10 +18,9 @@ interface DialogProps {
     open: boolean;
     onClose: () => void;
     title: string;
-    onSubmit: () => void;
 }
 
-export const Dialog: React.FC<DialogProps> = ({ children, open, onClose, title, onSubmit }): React.ReactElement => {
+export const Dialog: React.FC<DialogProps> = ({ children, onClose, open, title }): React.ReactElement => {
 
     return (
         <DefaultDialog
@@ -40,10 +39,6 @@ export const Dialog: React.FC<DialogProps> = ({ children, open, onClose, title, 
             <DialogContent>
                 {children}
             </DialogContent>
-            <DialogActions>
-                <Button onClick={onSubmit}>Ok</Button>
-                <Button onClick={onClose}>Cancelar</Button>
-            </DialogActions>
         </DefaultDialog>
     )
 }

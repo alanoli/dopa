@@ -14,7 +14,7 @@ import {
     Grid
 } from '@material-ui/core';
 
-const HabitsForm = () => {
+const HabitsForm = ({ onClose }) => {
 
     const [controlType, setControlType] = useState(null);
 
@@ -50,13 +50,20 @@ const HabitsForm = () => {
                                             input={input}
                                             meta={meta}
                                             placeholder={placeholder}
+                                            label="Tipo de controle"
                                         >
-                                            <option>
+                                            <option key={1} value={"Sim/Não"}>
                                                 {"Sim/Não"}
                                             </option>
                                         </TextField>
                                     )}
                                 </Field>
+                            </Grid>
+                            <Grid item xs={20} gridGap={5}>
+                                <Box spacing={2}>
+                                    <Button onClick={handleSubmit}>OK</Button>
+                                    <Button onClick={onClose}>Cancelar</Button>
+                                </Box>
                             </Grid>
                         </Grid>
                     </form>

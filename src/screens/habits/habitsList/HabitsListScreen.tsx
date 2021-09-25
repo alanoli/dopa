@@ -58,11 +58,10 @@ const HabitsListScreen = () => {
             </div>
             <Dialog
                 title={"Novo hábito"}
-                onSubmit={() => console.log("submiting")}
                 open={open}
                 onClose={() => setOpen(false)}
             >
-                <HabitsForm />
+                <HabitsForm onClose={() => setOpen(false)} />
             </Dialog>
         </div>
     )
