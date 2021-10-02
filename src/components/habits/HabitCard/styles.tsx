@@ -1,6 +1,8 @@
 import { makeStyles } from '@material-ui/core/styles';
 import { ITheme } from '../../../styles/themes/theme';
 
+import { HABIT_STATUS } from '../../../enums/habits';
+
 export const useStyles = makeStyles((theme: ITheme) => ({
     container: {
         display: 'flex',
@@ -9,7 +11,12 @@ export const useStyles = makeStyles((theme: ITheme) => ({
         backgroundColor: '#E2E2E2',
 
         borderRadius: '15px',
-        overflow: 'hidden'
+        overflow: 'hidden',
+
+        [`&.${HABIT_STATUS.DONE}`]: {
+            border: '2px solid',
+            borderColor: theme.palette.secondary.main
+        },
     },
     habitCardText: {
         flex: 3,

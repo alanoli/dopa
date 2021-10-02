@@ -2,6 +2,8 @@ import React from 'react';
 
 import { useDb } from '../hooks/useDb';
 
+const COLLECTION_NAME = "habits";
+
 interface HabitsDocumentData {
     control_type: string,
     title: string
@@ -12,8 +14,6 @@ interface UseHabitReturn {
     newHabit: (data: unknown) => void;
     deleteHabit: (id: string) => void;
 }
-
-const COLLECTION_NAME = "habits";
 
 const useHabitDb = (): UseHabitReturn => {
     const {

@@ -17,13 +17,14 @@ export const useStyles = makeStyles((theme: ITheme) => ({
         backgroundColor: theme.palette.quaternary.main
     },
     progress: {
-        alignSelf: 'center',
+        alignSelf: 'left',
         textAlign: 'center',
+        marginRight: 'auto',
         '& h5': {
-            fontSize: '3rem'
+            fontSize: '1.5rem',
         },
         '& p': {
-            fontSize: '1.5rem'
+            fontSize: '1.0rem'
         }
     },
     habitsList: {

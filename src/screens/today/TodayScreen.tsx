@@ -7,6 +7,7 @@ import Button from '../../components/button';
 import useHabitDb from '../../services/useHabitDb';
 
 import { useStyles } from './styles';
+import { HABIT_STATUS } from '../../enums/habits';
 
 const HabitsScreen = () => {
     const classes = useStyles();
@@ -54,6 +55,7 @@ const HabitsScreen = () => {
                                         key={index}
                                         name={item.title}
                                         imageUrl={'/habits_images/wakeupearly.png'}
+                                        status={HABIT_STATUS.PENDING}
                                     />
                                 )
                             })}

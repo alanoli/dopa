@@ -31,10 +31,9 @@ const useAuthProvider = (): UseAuthProviderReturn => {
 
     const signIn = async (email: string, password: string) => {
         try {
-            await signInWithEmailAndPassword(auth, email, password);
-            Router.push("/habits");
+            return await signInWithEmailAndPassword(auth, email, password);
         } catch (error) {
-            console.log(error);
+            return "Authentication error";
         }
     }
 

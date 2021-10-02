@@ -12,7 +12,7 @@ const HabitCard: React.FC<HabitCardProps> = ({ name, imageUrl, status }) => {
     const classes = useStyles();
 
     return (
-        <div className={classes.container}>
+        <div className={`${classes.container} ${status}`}>
             <div className={classes.habitCardText}>
                 <p>{name}</p>
             </div>
