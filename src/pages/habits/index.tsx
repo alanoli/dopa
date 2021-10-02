@@ -1,14 +1,14 @@
 import React from 'react';
 
 import { withAuth } from '../../hooks/useAuth';
-import HabitsScreen from '../../screens/habits/HabitsScreen';
+import HabitsListScreen from '../../screens/habits/HabitsListScreen';
 
-const Habits = () => {
+const List = () => {
     return (
         <>
-            <HabitsScreen />
+            <HabitsListScreen />
         </>
     )
 }
 
-export default withAuth(Habits);
+export default withAuth(List);

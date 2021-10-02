@@ -8,20 +8,36 @@ interface HabitsDocumentData {
 }
 
 interface UseHabitReturn {
-    getAllHabits: () => Promise<HabitsDocumentData[]>
+    getAllHabits: () => Promise<HabitsDocumentData[]>;
+    newHabit: (data: unknown) => void;
+    deleteHabit: (id: string) => void;
 }
 
 const COLLECTION_NAME = "habits";
 
 const useHabitDb = (): UseHabitReturn => {
-    const { getDocuments } = useDb();
+    const {
+        getDocuments,
+        createDocument,
+        deleteDocument
+    } = useDb();
 
     const getAllHabits = async () => {
         return await getDocuments(COLLECTION_NAME) as HabitsDocumentData[];
     }
 
+    const newHabit = async (data: unknown) => {
+        createDocument(COLLECTION_NAME, data);
+    }
+
+    const deleteHabit = async (id) => {
+        deleteDocument(COLLECTION_NAME, id);
+    }
+
     return {
-        getAllHabits
+        getAllHabits,
+        newHabit,
+        deleteHabit
     }
 }
 

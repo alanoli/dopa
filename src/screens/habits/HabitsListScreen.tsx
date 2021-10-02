@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import MenuDrawer from '../../../components/drawer/Drawer';
-import ScreenHeader from '../../../components/screenHeader/ScreenHeader';
-import Button from '../../../components/button';
-import HabitCardBig from '../../../components/habits/HabitCardBig';
+import MenuDrawer from '../../components/drawer/Drawer';
+import ScreenHeader from '../../components/screenHeader/ScreenHeader';
+import Button from '../../components/button';
+import HabitCardBig from '../../components/habits/HabitCardBig';
 
 import { useStyles } from './styles';
-import { Dialog } from '../../../components/dialog';
-import useHabitDb from '../../../services/useHabitDb';
+import { Dialog } from '../../components/dialog';
+import useHabitDb from '../../services/useHabitDb';
 
 import HabitsForm from './form';
 
@@ -32,6 +32,13 @@ const HabitsListScreen = () => {
         getData();
     }, []);
 
+    const onClose = (withRefetch: boolean) => {
+        setOpen(false);
+        if (withRefetch) {
+            getData();
+        }
+    }
+
     return (
         <div className={classes.container}>
             <MenuDrawer />
@@ -46,22 +53,23 @@ const HabitsListScreen = () => {
                         {data.data.map((item) => {
                             return (
                                 <HabitCardBig
-                                    name={item.title}
-                                    imageUrl={"/habits_images/wakeupearly.png"}
+                                    key={item.id}
+                                    habitData={item}
+                                    onClose={(withRefetch: boolean) => onClose(withRefetch)}
                                 />
                             )
                         })}
-                    </>
-                    :
-                    <>Loading data</>
+                    </> : <>Loading data</>
                 }
             </div>
             <Dialog
                 title={"Novo hábito"}
                 open={open}
-                onClose={() => setOpen(false)}
+                onClose={(withRefetch: boolean) => onClose(withRefetch)}
             >
-                <HabitsForm onClose={() => setOpen(false)} />
+                <HabitsForm
+                    onClose={(withRefetch: boolean) => onClose(withRefetch)}
+                />
             </Dialog>
         </div>
     )

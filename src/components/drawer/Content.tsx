@@ -23,19 +23,19 @@ const Content = () => {
         <>
             <UserTitle />
             <List>
-                <ListItem button key="habits/list">
-                    <ListItemText
-                        onClick={() => Router.push("/habits/list")} classes={classes}>Hábitos
-                    </ListItemText>
-                </ListItem>
                 <ListItem button key="habits">
-                    <ListItemText
-                        onClick={() => Router.push("/habits")} classes={classes}>Hoje
+                    <ListItemText onClick={() => Router.push("/habits")} classes={classes}>
+                        Hábitos
                     </ListItemText>
                 </ListItem>
-                <ListItem button key="habits/all">
-                    <ListItemText
-                        onClick={() => Router.push("/habits/all")} classes={classes}>Demais períodos
+                <ListItem button key="today">
+                    <ListItemText onClick={() => Router.push("/today")} classes={classes}>
+                        Hoje
+                    </ListItemText>
+                </ListItem>
+                <ListItem button key="habits/progress">
+                    <ListItemText onClick={() => Router.push("/habits/progress")} classes={classes}>
+                        Demais períodos
                     </ListItemText>
                 </ListItem>
             </List>

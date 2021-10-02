@@ -16,7 +16,7 @@ import Button from '../button';
 interface DialogProps {
     children: React.ReactElement;
     open: boolean;
-    onClose: () => void;
+    onClose: (withRefetch: boolean) => void;
     title: string;
 }
 
@@ -29,7 +29,7 @@ export const Dialog: React.FC<DialogProps> = ({ children, onClose, open, title }
             fullWidth
         >
             <Box position={"absolute"} top={0} right={0}>
-                <IconButton onClick={onClose}>
+                <IconButton onClick={() => onClose(false)}>
                     <Close />
                 </IconButton>
             </Box>

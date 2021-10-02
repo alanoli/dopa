@@ -17,8 +17,8 @@ const MenuDrawer = () => {
                 anchor={"right"}
                 open={open}
                 onClose={() => setOpen(false)}
-                classes={classes}
-                // BackdropProps={{ invisible: true }}
+                classes={{ paper: classes.paper }}
+            // BackdropProps={{ invisible: true }}
             >
                 <Content />
             </Drawer>
