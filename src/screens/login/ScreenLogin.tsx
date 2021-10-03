@@ -5,7 +5,7 @@ import Button from '../../components/button';
 import { Field, Form } from 'react-final-form';
 import TextField from '../../components/textfield/TextField';
 
-import { Grid } from '@material-ui/core';
+import { Grid, Box } from '@material-ui/core';
 
 import { useAuth } from '../../hooks/useAuth';
 
@@ -60,15 +60,18 @@ const Login = () => {
                                     )}
                                 </Field>
                             </Grid>
+                            <Box display={"flex"} justifyContent={"center"} width={"100%"}>
+                                <Button onClick={handleSubmit}>
+                                    Login
+                                </Button>
+                            </Box>
                         </Grid>
-                        <Button onClick={handleSubmit}>
-                            Login
-                        </Button>
                     </form>
-                )}
-            </Form>
-            {wrongPass ? <><p>Senha incorreta! Tente novamente</p></> : <></>}
-        </div>
+                )
+                }
+            </Form >
+            {wrongPass ? <>< p > Senha incorreta! Tente novamente</p ></> : <></>}
+        </div >
     )
 }
 
