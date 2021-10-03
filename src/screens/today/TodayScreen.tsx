@@ -5,6 +5,7 @@ import ScreenHeader from '../../components/screenHeader/ScreenHeader';
 import Button from '../../components/button';
 
 import useHabitDb from '../../services/useHabitDb';
+import useHabitCalendarDb from '../../services/useHabitCalendarDb';
 
 import { useStyles } from './styles';
 import { HABIT_STATUS } from '../../enums/habits';
@@ -12,6 +13,7 @@ import { HABIT_STATUS } from '../../enums/habits';
 const HabitsScreen = () => {
     const classes = useStyles();
     const { getAllHabits } = useHabitDb();
+    const { getTodayHabits } = useHabitCalendarDb();
 
     const [data, setData] = useState({ loading: true, data: null });
     const [percentage, setPercentage] = useState(0);
@@ -19,9 +21,18 @@ const HabitsScreen = () => {
     const getData = async () => {
         try {
             const habits = await getAllHabits();
+            const habitsToday = await getTodayHabits();
+            let habitData = habits.map((habit) => {
+                let status = habitsToday.find(htoday => htoday.habit_id == habit.id).status;
+                return {
+                    ...habit,
+                    status: status
+                }
+            })
+
             setData({
                 loading: false,
-                data: habits
+                data: habitData
             })
         } catch (error) {
             console.log(error);
@@ -54,8 +65,9 @@ const HabitsScreen = () => {
                                     <HabitCard
                                         key={index}
                                         name={item.title}
+                                        id={item.id}
                                         imageUrl={'/habits_images/wakeupearly.png'}
-                                        status={HABIT_STATUS.PENDING}
+                                        status={item.status}
                                     />
                                 )
                             })}

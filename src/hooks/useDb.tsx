@@ -9,24 +9,41 @@ import {
 	doc,
 	where,
 	query,
-	DocumentData
+	updateDoc,
+	DocumentData,
+	Query,
+	QueryConstraint,
+	WhereFilterOp
 } from 'firebase/firestore';
 import { useAuth } from './useAuth';
 
+interface DocConstraint {
+	column: string,
+	assertion: string,
+	value: string
+}
+
 interface UseDbReturn {
-	getDocuments: (collectionName: string) => Promise<DocumentData[]>;
+	getDocuments: (collectionName: string, constraints?: DocConstraint[]) => Promise<DocumentData[]>;
 	createDocument: (collectionName: string, data: unknown) => void;
 	deleteDocument: (collectionName: string, id: string) => void;
+	updateDocument: (collectionName: string, id: string, data: unknown) => void;
 }
 
 export const useDb = (): UseDbReturn => {
 	const db = getFirestore();
 	const { auth } = useAuth();
 
-	const getDocuments = async (collectionName: string) => {
+	const getDocuments = async (collectionName: string, constraints: DocConstraint[]) => {
 		try {
-			const docQuery = query(collection(db, collectionName),
-				where("userid", "==", auth.currentUser.uid));
+			let queryConstraints = [] as QueryConstraint[];
+			if (constraints) {
+				constraints.forEach((query) => {
+					queryConstraints.push(where(query.column, query.assertion as WhereFilterOp, query.value));
+				})
+			}
+			let docQuery: Query<DocumentData> = query(collection(db, collectionName), ...queryConstraints);
+
 			const queryResult = await getDocs(docQuery);
 			let docs = [];
 			queryResult.forEach((item) => {
@@ -60,9 +77,25 @@ export const useDb = (): UseDbReturn => {
 		}
 	}
 
+	const updateDocument = async (collectionName: string, id: string, data: unknown) => {
+		try {
+			let docQuery: Query<DocumentData> = query(collection(db, collectionName));
+			const queryResult = await getDocs(docQuery);
+			queryResult.forEach(async (item) => {
+				let itemInfo = item.data();
+				if (itemInfo.habit_id == id) {
+					await updateDoc(item.ref, data);
+				}
+			});
+		} catch (error) {
+			console.log(error);
+		}
+	}
+
 	return {
 		getDocuments,
 		createDocument,
-		deleteDocument
+		deleteDocument,
+		updateDocument
 	}
 }

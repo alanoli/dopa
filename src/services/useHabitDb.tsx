@@ -1,10 +1,14 @@
 import React from 'react';
 
 import { useDb } from '../hooks/useDb';
+import { buildConstraint } from '../utils/dbConstraintBuilder';
+
+import { useAuth } from '../hooks/useAuth';
 
 const COLLECTION_NAME = "habits";
 
 interface HabitsDocumentData {
+    id: string,
     control_type: string,
     title: string
 }
@@ -16,14 +20,17 @@ interface UseHabitReturn {
 }
 
 const useHabitDb = (): UseHabitReturn => {
+    const { auth } = useAuth();
     const {
         getDocuments,
         createDocument,
         deleteDocument
     } = useDb();
 
+    const userConstraint = buildConstraint("userid", "==", auth.currentUser.uid);
+
     const getAllHabits = async () => {
-        return await getDocuments(COLLECTION_NAME) as HabitsDocumentData[];
+        return await getDocuments(COLLECTION_NAME, [userConstraint]) as HabitsDocumentData[];
     }
 
     const newHabit = async (data: unknown) => {
