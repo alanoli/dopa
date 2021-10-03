@@ -6,6 +6,7 @@ import TextField from '../../components/textfield/TextField';
 import Button from '../../components/button';
 
 import useHabitDb from '../../services/useHabitDb';
+import useHabitCalendarDb from '../../services/useHabitCalendarDb';
 
 import {
     Box,
@@ -16,17 +17,19 @@ const HabitsForm = ({ onClose, habitState }) => {
 
     const [controlType, setControlType] = useState(null);
     const { newHabit, deleteHabit } = useHabitDb();
-    const handleSubmitHabit = (data) => {
+    const { addNewHabitToCalendar } = useHabitCalendarDb();
+
+    const handleSubmitHabit = async (data) => {
         if (habitState) {
-            // edit habit
+            // TODO: edit habit
         } else {
-            newHabit(data);
+            const newHabitRecord = await newHabit(data);
+            addNewHabitToCalendar(newHabitRecord.id);
         }
         onClose(true);
     }
 
     const handleHabitDelete = () => {
-        console.log(habitState.id)
         deleteHabit(habitState.id);
         onClose(true);
     }

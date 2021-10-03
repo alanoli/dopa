@@ -3,7 +3,10 @@ import { withAuth } from '../hooks/useAuth';
 
 import Button from '../components/button';
 
+import Router from 'next/router';
+
 function Home() {
+	Router.push("/today");
 	return (
 		<div>
 			<Head>

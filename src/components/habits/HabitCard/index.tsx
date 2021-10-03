@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useStyles } from './styles';
 import { HABIT_STATUS } from '../../../enums/habits';
 
-import useHabitCalendarDb from '../../../services/useHabitCalendarDb';
+import useHabitCalendarDb, { TODAY } from '../../../services/useHabitCalendarDb';
 
 interface HabitCardProps {
     id: string;
@@ -27,9 +27,7 @@ const HabitCard: React.FC<HabitCardProps> = ({ id, name, imageUrl, status }) => 
         } else {
             newStatus = HABIT_STATUS.DONE;
         }
-        // TODO: change day logic
-        updateDayHabits("20211002", id, { status: newStatus });
-        console.log(newStatus);
+        updateDayHabits(TODAY, id, { status: newStatus });
         setCardStatus(newStatus);
     }
 

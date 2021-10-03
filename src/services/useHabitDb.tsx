@@ -4,10 +4,12 @@ import { useDb } from '../hooks/useDb';
 import { buildConstraint } from '../utils/dbConstraintBuilder';
 
 import { useAuth } from '../hooks/useAuth';
+import useHabitCalendarDb, { TODAY } from './useHabitCalendarDb';
+import { DocumentData } from '@firebase/firestore';
 
 const COLLECTION_NAME = "habits";
 
-interface HabitsDocumentData {
+export interface HabitsDocumentData {
     id: string,
     control_type: string,
     title: string
@@ -15,7 +17,7 @@ interface HabitsDocumentData {
 
 interface UseHabitReturn {
     getAllHabits: () => Promise<HabitsDocumentData[]>;
-    newHabit: (data: unknown) => void;
+    newHabit: (data: unknown) => DocumentData;
     deleteHabit: (id: string) => void;
 }
 
@@ -30,11 +32,16 @@ const useHabitDb = (): UseHabitReturn => {
     const userConstraint = buildConstraint("userid", "==", auth.currentUser.uid);
 
     const getAllHabits = async () => {
-        return await getDocuments(COLLECTION_NAME, [userConstraint]) as HabitsDocumentData[];
+        try {
+            return await getDocuments(COLLECTION_NAME, [userConstraint]) as HabitsDocumentData[];
+        } catch (error) {
+            console.log(error);
+            return [];
+        }
     }
 
     const newHabit = async (data: unknown) => {
-        createDocument(COLLECTION_NAME, data);
+        return await createDocument(COLLECTION_NAME, data) as DocumentData;
     }
 
     const deleteHabit = async (id) => {

@@ -4,8 +4,8 @@ import {
 	getDocs,
 	getFirestore,
 	collection,
-	addDoc,
 	deleteDoc,
+	addDoc,
 	doc,
 	where,
 	query,
@@ -25,7 +25,7 @@ interface DocConstraint {
 
 interface UseDbReturn {
 	getDocuments: (collectionName: string, constraints?: DocConstraint[]) => Promise<DocumentData[]>;
-	createDocument: (collectionName: string, data: unknown) => void;
+	createDocument: (collectionName: string, data: unknown) => DocumentData;
 	deleteDocument: (collectionName: string, id: string) => void;
 	updateDocument: (collectionName: string, id: string, data: unknown) => void;
 }

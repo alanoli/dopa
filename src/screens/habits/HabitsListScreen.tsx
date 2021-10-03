@@ -17,15 +17,10 @@ const HabitsListScreen = () => {
     const { getAllHabits } = useHabitDb();
 
     const getData = async () => {
-        try {
-            const habits = await getAllHabits();
-            setData({
-                loading: false,
-                data: habits
-            })
-        } catch (error) {
-            console.log(error);
-        }
+        setData({
+            loading: false,
+            data: await getAllHabits()
+        })
     }
 
     useEffect(() => {

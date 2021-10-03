@@ -14,8 +14,8 @@ export const useStyles = makeStyles((theme: ITheme) => ({
         overflow: 'hidden',
 
         [`&.${HABIT_STATUS.DONE}`]: {
-            border: '2px solid',
-            borderColor: theme.palette.secondary.main
+            border: '3px solid',
+            borderColor: theme.palette.terciary.main
         },
     },
     habitCardText: {
