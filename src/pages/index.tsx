@@ -1,12 +1,14 @@
+import React, { useEffect } from 'react';
 import Head from 'next/head';
 import { withAuth } from '../hooks/useAuth';
-
-import Button from '../components/button';
 
 import Router from 'next/router';
 
 function Home() {
-	Router.push("/today");
+	useEffect(() => {
+		Router.push("/today");
+	});
+
 	return (
 		<div>
 			<Head>

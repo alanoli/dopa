@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 import Router from 'next/router';
 
 import {
@@ -109,14 +109,16 @@ export const withAuth = (Component) => {
         const [isAuthenticaded, setIsAuthenticaded] = useState(false);
         const { isLoggedIn } = useAuth();
 
-        isLoggedIn()
-            .then(result => {
-                if (!result) {
-                    Router.push("/login");
-                } else {
-                    setIsAuthenticaded(true);
-                }
-            });
+        useEffect(() => {
+            isLoggedIn()
+                .then(result => {
+                    if (!result) {
+                        Router.push("/login");
+                    } else {
+                        setIsAuthenticaded(true);
+                    }
+                });
+        }, []);
 
         return (
             <>
