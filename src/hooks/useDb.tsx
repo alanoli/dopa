@@ -6,6 +6,7 @@ import {
 	collection,
 	deleteDoc,
 	addDoc,
+	setDoc,
 	doc,
 	where,
 	query,
@@ -28,6 +29,7 @@ interface UseDbReturn {
 	createDocument: (collectionName: string, data: unknown) => DocumentData;
 	deleteDocument: (collectionName: string, id: string) => void;
 	updateDocument: (collectionName: string, id: string, data: unknown) => void;
+	setDocument: (collectionName: string, docId: string, data: unknown) => DocumentData;
 }
 
 export const useDb = (): UseDbReturn => {
@@ -52,6 +54,17 @@ export const useDb = (): UseDbReturn => {
 				docs.push({ id, ...data });
 			});
 			return docs;
+		} catch (error) {
+			console.log(error);
+		}
+	}
+
+	const setDocument = async (collectionName: string, docId: string, data: object) => {
+		try {
+			const queryResult = await setDoc(doc(collection(db, collectionName), docId), {
+				...data, userid: auth.currentUser.uid
+			});
+			return queryResult;
 		} catch (error) {
 			console.log(error);
 		}
@@ -82,8 +95,8 @@ export const useDb = (): UseDbReturn => {
 			let docQuery: Query<DocumentData> = query(collection(db, collectionName));
 			const queryResult = await getDocs(docQuery);
 			queryResult.forEach(async (item) => {
-				let itemInfo = item.data();
-				if (itemInfo.habit_id == id) {
+				// let itemInfo = item.data();
+				if (item.id == id) {
 					await updateDoc(item.ref, data);
 				}
 			});
@@ -96,6 +109,7 @@ export const useDb = (): UseDbReturn => {
 		getDocuments,
 		createDocument,
 		deleteDocument,
-		updateDocument
+		updateDocument,
+		setDocument
 	}
 }

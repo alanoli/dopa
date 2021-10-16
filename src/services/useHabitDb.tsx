@@ -4,7 +4,6 @@ import { useDb } from '../hooks/useDb';
 import { buildConstraint } from '../utils/dbConstraintBuilder';
 
 import { useAuth } from '../hooks/useAuth';
-import useHabitCalendarDb, { TODAY } from './useHabitCalendarDb';
 import { DocumentData } from '@firebase/firestore';
 
 const COLLECTION_NAME = "habits";

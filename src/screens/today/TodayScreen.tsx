@@ -19,11 +19,13 @@ const HabitsScreen = () => {
     const getData = async () => {
         const habitsData = await getTodayHabits();
         const percentage = calculatePercentage(habitsData);
+        console.log(habitsData);
         setData({
             loading: false,
             data: habitsData,
             percentage: percentage,
         });
+        console.log("Setting new data");
     }
 
     const calculatePercentage = (habitsData) => {
@@ -61,6 +63,7 @@ const HabitsScreen = () => {
                                         id={item.id}
                                         imageUrl={'/habits_images/wakeupearly.png'}
                                         status={item.status}
+                                        onChange={getData}
                                     />
                                 )
                             })}

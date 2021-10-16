@@ -8,6 +8,8 @@ import Button from '../../components/button';
 import useHabitDb from '../../services/useHabitDb';
 import useHabitCalendarDb from '../../services/useHabitCalendarDb';
 
+import moment from 'moment';
+
 import {
     Box,
     Grid
@@ -21,7 +23,7 @@ const HabitsForm = ({ onClose, habitState }) => {
 
     const handleSubmitHabit = async (data) => {
         if (habitState) {
-            // TODO: edit habit
+            // TODO: edit habit add edit column
         } else {
             const newHabitRecord = await newHabit(data);
             addNewHabitToCalendar(newHabitRecord.id);
@@ -37,7 +39,7 @@ const HabitsForm = ({ onClose, habitState }) => {
     return (
         <div>
             <Form
-                onSubmit={(data) => handleSubmitHabit(data)}
+                onSubmit={(data) => handleSubmitHabit({ ...data, createdAt: moment().format() })}
                 initialValues={habitState}
             >
                 {({ handleSubmit }) => (

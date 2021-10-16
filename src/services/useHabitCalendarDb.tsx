@@ -44,7 +44,8 @@ const useHabitCalendarDb = (): UseHabitCalendarReturn => {
     const {
         getDocuments,
         updateDocument,
-        createDocument
+        createDocument,
+        setDocument
     } = useDb();
 
     const {
@@ -72,11 +73,10 @@ const useHabitCalendarDb = (): UseHabitCalendarReturn => {
         const habits = await getAllHabits();
         if (habitsToday.length == 0) { // In case there are no calendar for today
             createTodayHabitsRecord(habits);
-            // console.log(habitsToday);
         }
 
         return habits.map((habit) => {
-            let habitCalendar = habitsToday.find(htoday => htoday.habit_id == habit.id);
+            let habitCalendar = habitsToday.find(htoday => htoday.id == habit.id);
             if (habitCalendar === undefined) {
                 // TODO: Add this habit calendar record
                 return {
@@ -101,13 +101,13 @@ const useHabitCalendarDb = (): UseHabitCalendarReturn => {
     const createTodayHabitsRecord = async (habits: HabitsDocumentData[]) => {
         const createdId = await createDocument(COLLECTION_NAME, {
             day: TODAY,
-            userid: auth.currentUser.uid
+            userid: auth.currentUser.uid,
+            createdAt: moment().format()
         });
-        console.log(createdId);
         habits.forEach(async (habit) => {
-            await createDocument(`${COLLECTION_NAME}/${createdId.id}/${HABITS_SUBCOLLECTION_NAME}`, {
-                habit_id: habit.id,
-                status: HABIT_STATUS.PENDING
+            await setDocument(`${COLLECTION_NAME}/${createdId.id}/${HABITS_SUBCOLLECTION_NAME}`, habit.id, {
+                status: HABIT_STATUS.PENDING,
+                createdAt: moment().format()
             });
         })
     }
@@ -116,9 +116,9 @@ const useHabitCalendarDb = (): UseHabitCalendarReturn => {
         try {
             const dayConstraint = buildConstraint("day", "==", TODAY);
             const document = await getDocuments(COLLECTION_NAME, [userConstraint, dayConstraint]) as HabitsCalendarDocumentData[];
-            await createDocument(`${COLLECTION_NAME}/${document[0].id}/${HABITS_SUBCOLLECTION_NAME}`, {
-                habit_id: habit_id,
-                status: HABIT_STATUS.PENDING
+            await setDocument(`${COLLECTION_NAME}/${document[0].id}/${HABITS_SUBCOLLECTION_NAME}`, habit_id, {
+                status: HABIT_STATUS.PENDING,
+                createdAt: moment().format()
             });
         } catch (error) {
             console.log(error);
