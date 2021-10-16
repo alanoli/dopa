@@ -8,6 +8,8 @@ import Button from '../../components/button';
 import useHabitDb from '../../services/useHabitDb';
 import useHabitCalendarDb from '../../services/useHabitCalendarDb';
 
+import { HabitsFormInput } from '../../types';
+
 import moment from 'moment';
 
 import {
@@ -15,7 +17,7 @@ import {
     Grid
 } from '@material-ui/core';
 
-const HabitsForm = ({ onClose, habitState }) => {
+const HabitsForm: React.FC<HabitsFormInput> = ({ onClose, habitState }) => {
 
     const [controlType, setControlType] = useState(null);
     const { newHabit, deleteHabit } = useHabitDb();
@@ -74,10 +76,10 @@ const HabitsForm = ({ onClose, habitState }) => {
                                     )}
                                 </Field>
                             </Grid>
-                            <Grid item xs={20} gridGap={5}>
-                                <Box sx={{ display: 'flex', gap: '1rem' }}>
+                            <Grid item>
+                                <Box sx={{ display: 'flex' }}>
                                     <Button onClick={handleSubmit}>OK</Button>
-                                    <Button onClick={onClose}>Cancelar</Button>
+                                    <Button onClick={() => onClose()}>Cancelar</Button>
                                     {habitState ?
                                         <Button onClick={handleHabitDelete}>DELETAR</Button>
                                         : <></>}

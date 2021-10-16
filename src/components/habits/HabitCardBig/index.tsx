@@ -1,26 +1,15 @@
 import React, { useState } from 'react';
 import { useStyles } from './styles';
 
-import { HABIT_STATUS } from '../../../enums/habits';
-
 import { Dialog } from '../../../components/dialog';
 import HabitsForm from '../../../screens/habits/form';
 
-interface Habit {
-    title: string
-    imageUrl?: string
-    status?: HABIT_STATUS
-}
+import { HabitsFormInput } from '../../../types';
 
-interface HabitCardBigProps {
-    habitData: Habit
-    onClose: (withRefetch: boolean) => void
-}
-
-const HabitCardBig: React.FC<HabitCardBigProps> = ({ habitData, onClose }) => {
+const HabitCardBig: React.FC<HabitsFormInput> = ({ habitState, onClose }) => {
     const classes = useStyles();
     const [open, setOpen] = useState(false);
-    const { imageUrl, title } = habitData;
+    const { imageUrl, title } = habitState;
 
     return (
         <>
@@ -43,7 +32,7 @@ const HabitCardBig: React.FC<HabitCardBigProps> = ({ habitData, onClose }) => {
             >
                 <HabitsForm
                     onClose={(withRefetch: boolean) => onClose(withRefetch)}
-                    habitState={habitData}
+                    habitState={habitState}
                 />
             </Dialog>
         </>

@@ -49,7 +49,7 @@ const HabitsListScreen = () => {
                             return (
                                 <HabitCardBig
                                     key={item.id}
-                                    habitData={item}
+                                    habitState={item}
                                     onClose={(withRefetch: boolean) => onClose(withRefetch)}
                                 />
                             )

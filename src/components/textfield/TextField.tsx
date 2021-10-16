@@ -1,14 +1,13 @@
 import React from 'react';
-import { TextField as DefaultTextField } from '@material-ui/core';
+import { TextField as DefaultTextField, TextFieldProps } from '@material-ui/core';
 import { FieldInputProps, FieldMetaState } from 'react-final-form';
 
-interface TextFieldProps {
+type CustomTextFieldProps = TextFieldProps & {
     input: FieldInputProps<any, HTMLElement>;
     meta: FieldMetaState<any>;
-    autoComplete?: boolean;
 }
 
-const TextField: React.FC<TextFieldProps> = ({ input, meta, autoComplete, ...props }) => (
+const TextField: React.FC<CustomTextFieldProps> = ({ input, meta, autoComplete, ...props }) => (
     <DefaultTextField
         variant="outlined"
         fullWidth

@@ -9,7 +9,8 @@ import {
     onAuthStateChanged,
     updateProfile,
     IdTokenResult,
-    Auth
+    Auth,
+    UserCredential
 } from 'firebase/auth';
 
 const AuthContext = createContext(null);
@@ -17,7 +18,7 @@ const AuthContext = createContext(null);
 export const useAuth = () => useContext(AuthContext);
 
 interface UseAuthProviderReturn {
-    signIn: (email: string, password: string) => Promise<void>,
+    signIn: (email: string, password: string) => Promise<UserCredential | "Authentication Error">,
     logOut: () => void,
     getToken: () => Promise<IdTokenResult | "no user">,
     isLoggedIn: () => Promise<boolean>,
@@ -33,7 +34,7 @@ const useAuthProvider = (): UseAuthProviderReturn => {
         try {
             return await signInWithEmailAndPassword(auth, email, password);
         } catch (error) {
-            return "Authentication error";
+            return "Authentication Error";
         }
     }
 

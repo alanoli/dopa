@@ -14,8 +14,8 @@ const UserTitle = () => {
             <section>
                 <p>{auth.currentUser.displayName}</p>
                 <Button
-                    outlined
-                    secondary
+                    variant={"outlined"}
+                    color={"secondary"}
                     onClick={logOut}
                 >
                     Logout
