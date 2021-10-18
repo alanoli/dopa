@@ -5,6 +5,8 @@ export interface Habit {
     title: string;
     imageUrl?: string;
     status?: HABIT_STATUS;
+    createdAt?: string;
+    editedAt?: string
 }
 
 export interface HabitsFormInput {

@@ -3,7 +3,7 @@ import { TextField as DefaultTextField, TextFieldProps } from '@material-ui/core
 import { FieldInputProps, FieldMetaState } from 'react-final-form';
 
 type CustomTextFieldProps = TextFieldProps & {
-    input: FieldInputProps<any, HTMLElement>;
+    input?: FieldInputProps<any, HTMLElement>;
     meta: FieldMetaState<any>;
 }
 

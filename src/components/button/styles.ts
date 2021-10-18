@@ -5,6 +5,9 @@ export const useStyles = makeStyles((theme: ITheme) => ({
     root: {
         borderRadius: '10px',
         backgroundColor: theme.palette.primary.main,
-        color: theme.palette.quaternary.main
+        color: theme.palette.quaternary.main,
+        "&:hover": {
+            backgroundColor: theme.palette.secondary.main
+        }
     },
 }))

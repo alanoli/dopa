@@ -27,9 +27,10 @@ const HabitsListScreen = () => {
         getData();
     }, []);
 
-    const onClose = (withRefetch: boolean) => {
+    const onClose = (withRefetch: boolean = true) => {
         setOpen(false);
         if (withRefetch) {
+            console.log("getting data");
             getData();
         }
     }

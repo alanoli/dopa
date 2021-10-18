@@ -16,7 +16,7 @@ const HabitCardBig: React.FC<HabitsFormInput> = ({ habitState, onClose }) => {
             <div onClick={() => setOpen(true)} className={classes.container}>
                 <div className={classes.habitCardImage}>
                     {imageUrl == null ?
-                        <img src={'/habits_images/default.png'} alt="" />
+                        <img src={'/habits_images/wakeupearly.png'} alt="" />
                         :
                         <img src={imageUrl} alt="" />
                     }

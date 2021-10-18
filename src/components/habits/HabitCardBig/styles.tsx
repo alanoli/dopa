@@ -4,8 +4,8 @@ import { ITheme } from '../../../styles/themes/theme';
 export const useStyles = makeStyles((theme: ITheme) => ({
     container: {
         display: 'flex',
-        height: '50vh',
-        minWidth: '12rem',
+        height: '40vh',
+        minWidth: '10rem',
         position: 'relative',
 
         boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',

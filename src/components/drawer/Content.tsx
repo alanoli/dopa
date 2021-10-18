@@ -33,11 +33,11 @@ const Content = () => {
                         Hoje
                     </ListItemText>
                 </ListItem>
-                <ListItem button key="habits/progress">
+                {/* <ListItem button key="habits/progress">
                     <ListItemText onClick={() => Router.push("/habits/progress")} classes={classes}>
                         Demais períodos
                     </ListItemText>
-                </ListItem>
+                </ListItem> */}
             </List>
         </>
     )

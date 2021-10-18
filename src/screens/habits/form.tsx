@@ -8,7 +8,7 @@ import Button from '../../components/button';
 import useHabitDb from '../../services/useHabitDb';
 import useHabitCalendarDb from '../../services/useHabitCalendarDb';
 
-import { HabitsFormInput } from '../../types';
+import { Habit, HabitsFormInput } from '../../types';
 
 import moment from 'moment';
 
@@ -19,36 +19,40 @@ import {
 
 const HabitsForm: React.FC<HabitsFormInput> = ({ onClose, habitState }) => {
 
-    const [controlType, setControlType] = useState(null);
-    const { newHabit, deleteHabit } = useHabitDb();
+    const required = (value: string) => (value ? undefined : "Necessário");
+
+    const { newHabit,
+        deleteHabit,
+        updateHabit
+    } = useHabitDb();
     const { addNewHabitToCalendar } = useHabitCalendarDb();
 
-    const handleSubmitHabit = async (data) => {
+    const handleSubmitHabit = async (data: Habit) => {
         if (habitState) {
-            // TODO: edit habit add edit column
+            updateHabit(data.id, data);
         } else {
             const newHabitRecord = await newHabit(data);
             addNewHabitToCalendar(newHabitRecord.id);
         }
-        onClose(true);
+        onClose(false);
     }
 
     const handleHabitDelete = () => {
         deleteHabit(habitState.id);
-        onClose(true);
+        onClose();
     }
 
     return (
         <div>
             <Form
-                onSubmit={(data) => handleSubmitHabit({ ...data, createdAt: moment().format() })}
+                onSubmit={(data) => handleSubmitHabit({ ...data, createdAt: moment().format() } as Habit)}
                 initialValues={habitState}
             >
                 {({ handleSubmit }) => (
                     <form onSubmit={handleSubmit}>
                         <Grid container spacing={2}>
                             <Grid item xs={12}>
-                                <Field
+                                <Field validate={required}
                                     name="title"
                                     component={TextField}
                                     label="Nome do hábito"
@@ -57,31 +61,29 @@ const HabitsForm: React.FC<HabitsFormInput> = ({ onClose, habitState }) => {
                             <Grid item xs={12}>
                                 <Field
                                     name="control_type"
-                                    label="Tipo de controle"
                                 >
                                     {({ input, meta, placeholder }) => (
                                         <TextField
-                                            select
-                                            value={controlType}
-                                            onChange={(e) => setControlType(e.target.value)}
-                                            input={input}
+                                            value={"Sim/Não"}
                                             meta={meta}
                                             placeholder={placeholder}
                                             label="Tipo de controle"
-                                        >
-                                            <option key={1} value={"Sim/Não"}>
-                                                {"Sim/Não"}
-                                            </option>
-                                        </TextField>
+                                            disabled
+                                        />
                                     )}
                                 </Field>
                             </Grid>
                             <Grid item>
                                 <Box sx={{ display: 'flex' }}>
                                     <Button onClick={handleSubmit}>OK</Button>
-                                    <Button onClick={() => onClose()}>Cancelar</Button>
+                                    <Button onClick={() => onClose(false)}>Cancelar</Button>
                                     {habitState ?
-                                        <Button onClick={handleHabitDelete}>DELETAR</Button>
+                                        <Button
+                                            onClick={handleHabitDelete}
+                                            style={{ backgroundColor: "#fc5185" }}
+                                        >
+                                            DELETAR
+                                        </Button>
                                         : <></>}
                                 </Box>
                             </Grid>
