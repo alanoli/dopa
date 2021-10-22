@@ -6,10 +6,22 @@ export interface Habit {
     imageUrl?: string;
     status?: HABIT_STATUS;
     createdAt?: string;
-    editedAt?: string
+    editedAt?: string;
+    habitType?: string;
 }
 
 export interface HabitsFormInput {
-    onClose: (withRefetch?: boolean) => void;
+    onClose?: (withRefetch?: boolean) => void;
     habitState?: Habit
+}
+
+export interface HabitsCardInput {
+    onChange: () => void;
+    habitState: Habit
+}
+
+export interface Image {
+    type: string;
+    path: string;
+    id: string;
 }

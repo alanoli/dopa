@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { Field, Form } from 'react-final-form';
 
@@ -7,8 +7,9 @@ import Button from '../../components/button';
 
 import useHabitDb from '../../services/useHabitDb';
 import useHabitCalendarDb from '../../services/useHabitCalendarDb';
+import useImageDb from '../../services/useImageDb';
 
-import { Habit, HabitsFormInput } from '../../types';
+import { Habit, HabitsFormInput, Image } from '../../types';
 
 import moment from 'moment';
 
@@ -19,28 +20,40 @@ import {
 
 const HabitsForm: React.FC<HabitsFormInput> = ({ onClose, habitState }) => {
 
+    const [habitType, setHabitType] = useState(null);
+    const [habitTypes, setHabitTypes] = useState([] as Image[]);
     const required = (value: string) => (value ? undefined : "Necessário");
 
-    const { newHabit,
+    const {
+        newHabit,
         deleteHabit,
         updateHabit
     } = useHabitDb();
     const { addNewHabitToCalendar } = useHabitCalendarDb();
+    const { getTypes } = useImageDb();
 
     const handleSubmitHabit = async (data: Habit) => {
         if (habitState) {
-            updateHabit(data.id, data);
+            await updateHabit(data.id, data);
         } else {
             const newHabitRecord = await newHabit(data);
             addNewHabitToCalendar(newHabitRecord.id);
         }
-        onClose(false);
+        onClose();
     }
 
     const handleHabitDelete = () => {
         deleteHabit(habitState.id);
         onClose();
     }
+
+    useEffect(() => {
+        const getImageTypes = async () => {
+            const types: Image[] = await getTypes();
+            setHabitTypes(types);
+        }
+        getImageTypes();
+    }, []);
 
     return (
         <div>
@@ -60,7 +73,7 @@ const HabitsForm: React.FC<HabitsFormInput> = ({ onClose, habitState }) => {
                             </Grid>
                             <Grid item xs={12}>
                                 <Field
-                                    name="control_type"
+                                    name="controlType"
                                 >
                                     {({ input, meta, placeholder }) => (
                                         <TextField
@@ -70,6 +83,31 @@ const HabitsForm: React.FC<HabitsFormInput> = ({ onClose, habitState }) => {
                                             label="Tipo de controle"
                                             disabled
                                         />
+                                    )}
+                                </Field>
+                            </Grid>
+                            <Grid item xs={12}>
+                                <Field
+                                    name="habitType"
+                                >
+                                    {({ input, meta, placeholder }) => (
+                                        <TextField
+                                            select
+                                            input={input}
+                                            value={habitType}
+                                            meta={meta}
+                                            placeholder={placeholder}
+                                            onChange={(e) => setHabitType(e.target.value)}
+                                            label="Tipo de hábito"
+                                        >
+                                            {habitTypes.map((item) => {
+                                                return (
+                                                    <option key={item.id} value={item.path}>
+                                                        {item.type}
+                                                    </option>
+                                                )
+                                            })}
+                                        </TextField>
                                     )}
                                 </Field>
                             </Grid>

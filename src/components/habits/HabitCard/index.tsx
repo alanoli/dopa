@@ -5,16 +5,17 @@ import { HABIT_STATUS } from '../../../enums/habits';
 import useHabitCalendarDb, { TODAY } from '../../../services/useHabitCalendarDb';
 import moment from 'moment';
 
-interface HabitCardProps {
-    id: string;
-    name: string;
-    imageUrl?: string;
-    status?: HABIT_STATUS;
-    onChange: () => void;
-}
+import { HabitsCardInput } from '../../../types';
 
-const HabitCard: React.FC<HabitCardProps> = ({ id, name, imageUrl, status, onChange }) => {
+const HabitCard: React.FC<HabitsCardInput> = ({ habitState, onChange }) => {
     const classes = useStyles();
+
+    const {
+        id,
+        title,
+        habitType,
+        status
+    } = habitState;
 
     const {
         updateDayHabits
@@ -34,14 +35,14 @@ const HabitCard: React.FC<HabitCardProps> = ({ id, name, imageUrl, status, onCha
     return (
         <div className={`${classes.container} ${status}`} onClick={onUpdate}>
             <div className={classes.habitCardText}>
-                <p>{name}</p>
+                <p>{title}</p>
             </div>
             <div className={classes.habitCardImage}>
-                {imageUrl == null ?
-                    <img src={'/habits_images/default.png'} alt="" />
+                <img src={habitType} alt="" />
+                {/* {imageUrl == null ?
                     :
                     <img src={imageUrl} alt="" />
-                }
+                } */}
             </div>
 
 

@@ -9,17 +9,25 @@ import { HabitsFormInput } from '../../../types';
 const HabitCardBig: React.FC<HabitsFormInput> = ({ habitState, onClose }) => {
     const classes = useStyles();
     const [open, setOpen] = useState(false);
-    const { imageUrl, title } = habitState;
+    const { title, habitType } = habitState;
+
+    // const onClose = (withRefetch: boolean = true) => {
+    //     setOpen(false);
+    //     if (withRefetch) {
+    //         console.log("getting data");
+    //         getData();
+    //     }
+    // }
 
     return (
         <>
             <div onClick={() => setOpen(true)} className={classes.container}>
                 <div className={classes.habitCardImage}>
-                    {imageUrl == null ?
-                        <img src={'/habits_images/wakeupearly.png'} alt="" />
+                    <img src={habitType} alt="" />
+                    {/* {imageUrl == null ?
                         :
                         <img src={imageUrl} alt="" />
-                    }
+                    } */}
                 </div>
                 <div className={classes.habitCardText}>
                     <p>{title}</p>
@@ -31,7 +39,7 @@ const HabitCardBig: React.FC<HabitsFormInput> = ({ habitState, onClose }) => {
                 onClose={() => setOpen(false)}
             >
                 <HabitsForm
-                    onClose={(withRefetch: boolean) => onClose(withRefetch)}
+                    onClose={() => { setOpen(false); onClose() }}
                     habitState={habitState}
                 />
             </Dialog>

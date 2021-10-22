@@ -59,10 +59,7 @@ const HabitsScreen = () => {
                                 return (
                                     <HabitCard
                                         key={index}
-                                        name={item.title}
-                                        id={item.id}
-                                        imageUrl={'/habits_images/wakeupearly.png'}
-                                        status={item.status}
+                                        habitState={item}
                                         onChange={getData}
                                     />
                                 )

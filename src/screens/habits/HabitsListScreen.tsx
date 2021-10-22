@@ -51,7 +51,7 @@ const HabitsListScreen = () => {
                                 <HabitCardBig
                                     key={item.id}
                                     habitState={item}
-                                    onClose={(withRefetch: boolean) => onClose(withRefetch)}
+                                    onClose={onClose}
                                 />
                             )
                         })}
@@ -61,10 +61,10 @@ const HabitsListScreen = () => {
             <Dialog
                 title={"Novo hábito"}
                 open={open}
-                onClose={(withRefetch: boolean) => onClose(withRefetch)}
+                onClose={onClose}
             >
                 <HabitsForm
-                    onClose={(withRefetch: boolean) => onClose(withRefetch)}
+                    onClose={onClose}
                 />
             </Dialog>
         </div>
