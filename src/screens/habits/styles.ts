@@ -24,5 +24,6 @@ export const useStyles = makeStyles((theme: ITheme) => ({
         overflowX: 'scroll',
 
         paddingBottom: '1rem',
+        paddingLeft: '0.2rem'
     }
 }))
