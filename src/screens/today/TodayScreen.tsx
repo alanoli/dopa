@@ -25,7 +25,6 @@ const HabitsScreen = () => {
             data: habitsData,
             percentage: percentage,
         });
-        console.log("Setting new data");
     }
 
     const calculatePercentage = (habitsData) => {
